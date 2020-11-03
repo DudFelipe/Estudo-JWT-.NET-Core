@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SecuringWebApiUsingJwtAuthentication.Entities;
+using SecuringWebApiUsingJwtAuthentication.Interfaces;
+using SecuringWebApiUsingJwtAuthentication.Services;
 
 namespace SecuringWebApiUsingJwtAuthentication
 {
@@ -26,6 +30,8 @@ namespace SecuringWebApiUsingJwtAuthentication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<CustomersDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CustomersDbConnectionString")));
+            services.AddScoped<ICustomerService, CustomerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
