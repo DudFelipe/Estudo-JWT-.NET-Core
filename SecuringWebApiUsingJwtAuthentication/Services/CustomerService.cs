@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
 using SecuringWebApiUsingJwtAuthentication.Entities;
 using SecuringWebApiUsingJwtAuthentication.Helpers;
 using SecuringWebApiUsingJwtAuthentication.Interfaces;
@@ -22,6 +23,8 @@ namespace SecuringWebApiUsingJwtAuthentication.Services
 
         public async Task<LoginResponse> Login(LoginRequest loginRequest)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             var passwordHash = HashingHelper.CalculateSHA256Hash(loginRequest.Password);
             var customer = _customersDbContext.Customers.SingleOrDefault(customer => 
                                                                             customer.Active && 
